@@ -50,6 +50,7 @@ class LogIn : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // CODE FOR LOGGING IN
                     val intent = Intent(this@LogIn, MainActivity::class.java)
+                    finish()
                     startActivity(intent)
                 } else {
                     // If sign in fails, display a message to the user.
