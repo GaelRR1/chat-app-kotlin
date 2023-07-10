@@ -7,6 +7,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class LogIn : AppCompatActivity() {
 
@@ -15,6 +17,8 @@ class LogIn : AppCompatActivity() {
     private lateinit var btnLogin: Button
     private lateinit var btnSignUp: Button
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var mDbRef: DatabaseReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +27,7 @@ class LogIn : AppCompatActivity() {
         supportActionBar?.hide()
 
         mAuth = FirebaseAuth.getInstance()
+        mDbRef = FirebaseDatabase.getInstance().getReference()
 
         edtEmail = findViewById(R.id.edt_email)
         edtPassword = findViewById(R.id.edt_password)
@@ -49,7 +54,7 @@ class LogIn : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // CODE FOR LOGGING IN
-                    val intent = Intent(this@LogIn, MainActivity::class.java)
+                    val intent = Intent(this@LogIn, Homepage::class.java)
                     finish()
                     startActivity(intent)
                 } else {

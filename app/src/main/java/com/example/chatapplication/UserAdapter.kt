@@ -21,8 +21,12 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
 
         val currentUser = userList[position]
+        val firstLetter = currentUser.name?.firstOrNull()?.toUpperCase()?.toString()
+
+
 
         holder.textName.text = currentUser.name
+        holder.logo2.text = firstLetter
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context,ChatActivity::class.java)
@@ -33,6 +37,10 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
             context.startActivity(intent)
         }
 
+
+
+
+
     }
 
 
@@ -41,5 +49,6 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
     }
     class UserViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val textName = itemView.findViewById<TextView>(R.id.txt_name)
+        val logo2 = itemView.findViewById<TextView>(R.id.profile1)
     }
 }

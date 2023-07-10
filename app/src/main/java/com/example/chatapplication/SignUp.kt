@@ -25,7 +25,6 @@ class SignUp : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-
         mAuth = FirebaseAuth.getInstance()
 
         edtEmail = findViewById(R.id.edt_email)
@@ -37,32 +36,31 @@ class SignUp : AppCompatActivity() {
             val name = edtName.text.toString()
             val email = edtEmail.text.toString()
             val password = edtPassword.text.toString()
-
-            signUp(name,email,password)
+            val role = "student"
+            signUp(name, email, password, role)
         }
     }
 
-    private fun signUp(name:String, email: String, password: String){
-        //Login of creating user
+    private fun signUp(name: String, email: String, password: String, role: String) {
+        //Login or creating user
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     //code for jumping to home
-
-                    addUserToDatabase(name,email,mAuth.currentUser?.uid!!)
-                    val intent = Intent(this@SignUp, MainActivity::class.java)
+                    addUserToDatabase(name, email, mAuth.currentUser?.uid!!, role)
+                    val intent = Intent(this@SignUp, Homepage::class.java)
                     finish()
                     startActivity(intent)
                 } else {
                     // If sign in fails, display a message to the user.
-                    Toast.makeText(this@SignUp, "Some eror occurred", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SignUp, "Some error occurred", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
-    private fun addUserToDatabase(name:String, email:String, uid:String){
-        mDbRef = FirebaseDatabase.getInstance().getReference()
-
-        mDbRef.child("user").child(uid).setValue(User(name,email,uid))
+    private fun addUserToDatabase(name: String, email: String, uid: String, role: String) {
+        mDbRef = FirebaseDatabase.getInstance().getReference("user")
+        val userData = User(name, email, uid, role)
+        mDbRef.child(uid).setValue(userData)
     }
 }
